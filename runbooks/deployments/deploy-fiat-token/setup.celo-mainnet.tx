@@ -1,0 +1,7 @@
+variable "fiat_token_v2_2_address" {
+    value = input.fiat_token_celo_implementation_address
+}
+
+variable "fiat_token_contract_name" {
+  value = "FiatTokenCeloV2_2"
+}

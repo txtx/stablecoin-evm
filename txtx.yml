@@ -1,0 +1,81 @@
+---
+name: Circle's Stablecoin EVM Contracts
+id: circles-stablecoin-evm-contracts
+runbooks:
+  - name: deploy
+    id: deploy
+    description: Deploys the Fiat Token or Fiat Token Celo contracts. Use environment CLI args to specify the network + contracts to deploy.
+    location: runbooks/deployments/deploy-fiat-token
+    state:
+      location: runbooks/deployments/deploy-fiat-token/state
+environments:
+  fiat-devnet:
+    # network parameters
+    rpc_api_url: http://localhost:8545
+    chain_id: 1
+    # wallet parameters
+    deployer_secret_key: 708c8e68f7cfc670783d848790a5503fb0a83580911760ca5762536bc0628969
+    # contract parameters
+    master_minter_owner: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    proxy_admin: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    token_name: USDC
+    token_symbol: USDC
+    token_currency: USD
+    token_decimals: 6
+    pauser: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    blacklister: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    owner: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    lost_and_found: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+  fiat-mainnet:
+    # network parameters
+    rpc_api_url:
+    chain_id: 1
+    # wallet parameters
+    deployer_secret_key:
+    # contract parameters
+    master_minter_owner:
+    proxy_admin:
+    token_name: USDC
+    token_symbol: USDC
+    token_currency: USD
+    token_decimals: 6
+    pauser:
+    blacklister:
+    owner:
+    fiat_token_implementation_address:
+    lost_and_found:
+  celo-devnet:
+    # network parameters
+    rpc_api_url: http://localhost:8546
+    chain_id: 42220
+    # wallet parameters
+    deployer_secret_key: 708c8e68f7cfc670783d848790a5503fb0a83580911760ca5762536bc0628969
+    # contract parameters
+    master_minter_owner: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    proxy_admin: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    token_name: USBC
+    token_symbol: USBC
+    token_currency: USD
+    token_decimals: 6
+    pauser: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    blacklister: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    owner: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+    lost_and_found: 0xCe246168E59dd8e28e367BB49b38Dc621768F425
+  celo-mainnet:
+    # network parameters
+    rpc_api_url:
+    chain_id: 42220
+    # wallet parameters
+    deployer_secret_key: 0x
+    # contract parameters
+    master_minter_owner:
+    proxy_admin:
+    token_name: USDC
+    token_symbol: USDC
+    token_currency: USD
+    token_decimals: 6
+    pauser:
+    blacklister:
+    owner:
+    fiat_token_celo_implementation_address:
+    lost_and_found:

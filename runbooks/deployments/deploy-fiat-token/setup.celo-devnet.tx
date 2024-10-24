@@ -1,0 +1,30 @@
+action "deploy_fiat_token_celo_v2_2" "evm::deploy_contract" {
+    contract = evm::get_contract_from_foundry_project("FiatTokenCeloV2_2")
+    signer = signer.deployer
+}
+
+action "initialize_fiat_token_v2" "evm::call_contract" {
+    contract_address = action.deploy_fiat_token_celo_v2_2.contract_address
+    contract_abi = action.deploy_fiat_token_celo_v2_2.abi
+    function_name = "initialize"
+    function_args = [
+        "",
+        "",
+        "",
+        evm::uint8(0),
+        variable.throwaway_address,
+        variable.throwaway_address,
+        variable.throwaway_address,
+        variable.throwaway_address,
+    ]
+    signer = signer.deployer
+}
+
+variable "fiat_token_v2_2_address" {
+    value = action.deploy_fiat_token_celo_v2_2.contract_address
+    depends_on = [action.initialize_fiat_token_v2]
+}
+
+variable "fiat_token_contract_name" {
+  value = "FiatTokenCeloV2_2"
+}
