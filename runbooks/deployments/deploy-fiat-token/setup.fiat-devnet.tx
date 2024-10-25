@@ -1,9 +1,16 @@
+variable "fiat_token_contract" {
+    description = "The FiatTokenV2_2 contract & artifacts"
+    value = evm::get_contract_from_foundry_project("FiatTokenV2_2")
+}
+
 action "deploy_fiat_token_v2" "evm::deploy_contract" {
-    contract = evm::get_contract_from_foundry_project("FiatTokenV2_2")
+    description = "Deploy the FiatTokenV2_2 contract"
+    contract = variable.fiat_token_contract
     signer = signer.deployer
 }
 
 action "initialize_fiat_token_v2" "evm::call_contract" {
+    description = "Initialize the FiatTokenV2_2 contract with empty values"
     contract_address = action.deploy_fiat_token_v2.contract_address
     contract_abi = action.deploy_fiat_token_v2.abi
     function_name = "initialize"
@@ -21,10 +28,7 @@ action "initialize_fiat_token_v2" "evm::call_contract" {
 }
 
 variable "fiat_token_v2_2_address" {
+    description = "The address of the FiatTokenV2_2 contract"
     value = action.deploy_fiat_token_v2.contract_address
     depends_on = [action.initialize_fiat_token_v2]
-}
-
-variable "fiat_token_contract_name" {
-  value = "FiatTokenV2_2"
 }

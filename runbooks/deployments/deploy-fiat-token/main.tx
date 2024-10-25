@@ -8,6 +8,7 @@ signer "deployer" "evm::secret_key" {
 }
 
 action "deploy_fiat_token_proxy" "evm::deploy_contract" {
+    description = "Deploy the FiatTokenProxy contract"
     contract = evm::get_contract_from_foundry_project("FiatTokenProxy")
     constructor_args = [
         variable.fiat_token_v2_2_address
@@ -16,6 +17,7 @@ action "deploy_fiat_token_proxy" "evm::deploy_contract" {
 }
 
 action "deploy_master_minter" "evm::deploy_contract" {
+    description = "Deploy the MasterMinter contract"
     contract = evm::get_contract_from_foundry_project("MasterMinter")
     constructor_args = [
         action.deploy_fiat_token_proxy.contract_address
@@ -24,6 +26,7 @@ action "deploy_master_minter" "evm::deploy_contract" {
 }
 
 action "transfer_minter_ownership" "evm::call_contract" {
+    description = "Transfer ownership of the MasterMinter contract to the master minter owner"
     contract_address = action.deploy_master_minter.contract_address
     contract_abi = action.deploy_master_minter.abi
     function_name = "transferOwnership"
@@ -34,6 +37,7 @@ action "transfer_minter_ownership" "evm::call_contract" {
 }
 
 action "change_proxy_admin" "evm::call_contract" {
+    description = "Change the admin of the FiatTokenProxy contract"
     contract_address = action.deploy_fiat_token_proxy.contract_address
     contract_abi = action.deploy_fiat_token_proxy.abi
     function_name = "changeAdmin"
@@ -43,15 +47,11 @@ action "change_proxy_admin" "evm::call_contract" {
     signer = signer.deployer
 }
 
-action "deploy_fiat_token" "evm::deploy_contract" {
-    contract = evm::get_contract_from_foundry_project(variable.fiat_token_contract_name)
-    signer = signer.deployer
-
-}
 
 action "initialize" "evm::call_contract" {
-    contract_address = action.deploy_fiat_token.contract_address
-    contract_abi = action.deploy_fiat_token.abi
+    description = "Call the initialize function of the FiatToken contract via the proxy"
+    contract_address = action.deploy_fiat_token_proxy.contract_address
+    contract_abi = variable.fiat_token_contract.abi
     function_name = "initialize"
     function_args = [
         input.token_name,
@@ -64,12 +64,12 @@ action "initialize" "evm::call_contract" {
         evm::address(input.owner)
     ]
     signer = signer.deployer
-    // depends_on = [action.deploy_fiat_token]
 }
 
 action "initialize_v2" "evm::call_contract" {
-    contract_address = action.deploy_fiat_token.contract_address
-    contract_abi = action.deploy_fiat_token.abi
+    description = "Call the initializeV2 function of the FiatToken contract via the proxy"
+    contract_address = action.deploy_fiat_token_proxy.contract_address
+    contract_abi = variable.fiat_token_contract.abi
     function_name = "initializeV2"
     function_args = [
         input.token_name,
@@ -79,8 +79,9 @@ action "initialize_v2" "evm::call_contract" {
 }
 
 action "initialize_v2_1" "evm::call_contract" {
-    contract_address = action.deploy_fiat_token.contract_address
-    contract_abi = action.deploy_fiat_token.abi
+    description = "Call the initializeV2_1 function of the FiatToken contract via the proxy"
+    contract_address = action.deploy_fiat_token_proxy.contract_address
+    contract_abi = variable.fiat_token_contract.abi
     function_name = "initializeV2_1"
     function_args = [
         evm::address(input.lost_and_found)
@@ -90,8 +91,9 @@ action "initialize_v2_1" "evm::call_contract" {
 }
 
 action "initialize_v2_2" "evm::call_contract" {
-    contract_address = action.deploy_fiat_token.contract_address
-    contract_abi = action.deploy_fiat_token.abi
+    description = "Call the initializeV2_2 function of the FiatToken contract via the proxy"
+    contract_address = action.deploy_fiat_token_proxy.contract_address
+    contract_abi = variable.fiat_token_contract.abi
     function_name = "initializeV2_2"
     function_args = [
         [],
