@@ -1,0 +1,9 @@
+variable "fiat_token_v2_2_address" {
+    description = "The address of the FiatTokenCeloV2_2 contract"
+    value = input.fiat_token_celo_implementation_address
+}
+
+variable "fiat_token_contract" {
+    description = "The FiatTokenCeloV2_2 contract & artifacts"
+    value = evm::get_contract_from_foundry_project("FiatTokenCeloV2_2")
+}
